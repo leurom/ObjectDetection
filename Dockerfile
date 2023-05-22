@@ -7,4 +7,4 @@ COPY . .
 RUN ./mvnw -Dmaven.test.skip=true package
 # Docker Run Command
 EXPOSE 8080
-CMD ["java","-jar","/U/objectdetection/target/playground-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","/U/objectdetection/target/objectdetection.jar"]
