@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <titleObjectDetection(resNet-50)</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/script.js" async></script>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1>ObjectDetection(resNet-50)</h1>
+        <p>Deep Java Library</p>
+    
+        <div class="form-group">
+            <label for="exampleFormControlFile1">Hier Bild hochladen (jpeg, png)</label>
+            <input type="file" accept="image/png, image/jpeg"
+                    class="form-control-file" id="file" name="file" 
+                onchange="classify_image(event, this);">   
+        </div>
+        <div id="answerPart" style="visibility: visible;">
+            <p><b>Class and Probability:</b>
+            <div id="answer"></div>
+            </p>
+
+            <p id="previewPart"><b>Analyzed Image:</b>
+            <p><img id="preview" width="300" src="#" alt="preview" /></p>
+            </p>
+
+        </div>
+    </div>
+    </body>
+    </html>
