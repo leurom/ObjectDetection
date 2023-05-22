@@ -1,5 +1,5 @@
-/* Allgemeine Stile */
-body {
+ /* Allgemeine Stile */
+ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -7,6 +7,9 @@ body {
 
 .container-fluid {
     margin-top: 50px;
+    text-align: center;
+}
+.input#file.form-control-file{
     text-align: center;
 }
 

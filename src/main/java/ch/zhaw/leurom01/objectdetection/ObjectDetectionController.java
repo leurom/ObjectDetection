@@ -25,36 +25,36 @@ public class ObjectDetectionController {
         return "index";
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/")
     public String uploadImage(@RequestParam("file") MultipartFile file, Model model) {
-        if (file.isEmpty()) {
-            model.addAttribute("message", "Please select a file to upload.");
-            return "index";
-        }
-    
-        // Debugging-Ausgaben hinzufügen
-        System.out.println("Received file: " + file.getOriginalFilename());
-        System.out.println("File type: " + file.getContentType());
-        System.out.println("File size: " + file.getSize() + " bytes");
-    
-        try {
-            // Speichern des MultipartFile in einer temporären Datei
-            Path tempFile = Files.createTempFile("temp", file.getOriginalFilename());
-            FileCopyUtils.copy(file.getInputStream(), Files.newOutputStream(tempFile));
-    
-            // Aufruf der predict-Methode mit dem Dateinamen als String
-            DetectedObjects detections = ObjectDetection.predict(tempFile.toString());
-    
-            // Konvertiere DetectedObjects in JSON
-            ObjectMapper objectMapper = new ObjectMapper();
-            String detectionsJson = objectMapper.writeValueAsString(detections);
+    if (file.isEmpty()) {
+        model.addAttribute("message", "Please select a file to upload.");
+        return "index";
+    }
 
-    
-            model.addAttribute("detectionsJson", detectionsJson);
-        } catch (IOException | ModelException | TranslateException e) {
-            model.addAttribute("message", "Error occurred during object detection: " + e.getMessage());
-        }
-    
-        return "result";
+    // Debugging-Ausgaben hinzufügen
+    System.out.println("Received file: " + file.getOriginalFilename());
+    System.out.println("File type: " + file.getContentType());
+    System.out.println("File size: " + file.getSize() + " bytes");
+
+    try {
+        // Speichern des MultipartFile in einer temporären Datei
+        Path tempFile = Files.createTempFile("temp", file.getOriginalFilename());
+        FileCopyUtils.copy(file.getInputStream(), Files.newOutputStream(tempFile));
+
+        // Aufruf der predict-Methode mit dem Dateinamen als String
+        DetectedObjects detections = ObjectDetection.predict(tempFile.toString());
+
+        // Konvertiere DetectedObjects in JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        String detectionsJson = objectMapper.writeValueAsString(detections);
+
+        model.addAttribute("detectionsJson", detectionsJson);
+        return "index"; // Rückgabe der index.html-Seite
+    } catch (IOException | ModelException | TranslateException e) {
+        model.addAttribute("message", "Error occurred during object detection: " + e.getMessage());
+        return "index";
     }
 }
+}
+

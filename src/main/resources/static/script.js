@@ -1,5 +1,5 @@
 function classify_image(event, input) {
-    var form = new FormData(); // Variable form vor der if-Bedingung deklarieren
+    var form = new FormData();
   
     if (input.files && input.files[0] && input.files[0] instanceof Blob) {
       var file = input.files[0];
@@ -12,35 +12,27 @@ function classify_image(event, input) {
   
       reader.readAsDataURL(file);
   
-      form.append('file', file); // FormData mit dem hochzuladenden Bild aktualisieren
+      form.append('file', file);
   
-      fetch('/upload', {
+      var params = new URLSearchParams();
+      params.append('text', input.files[0].name);
+  
+      fetch('/', {
         method: 'POST',
         body: form
       })
         .then(response => response.json())
         .then(data => {
-          console.log('Server response:', data); // Debugging-Ausgabe
+          var answerDiv = document.getElementById('answer');
   
-          var detections = data.detections;
+          answerDiv.innerHTML = '<ul>';
+          console.log('Server response:', data);
+          var dataString = JSON.stringify(data);
+          answerDiv.innerHTML += '<li>' + data + '</li>';
+          answerDiv.innerHTML += '</ul>';
   
-          // Überprüfe, ob detections definiert ist
-          if (detections) {
-            var answerDiv = document.getElementById('answer');
-            answerDiv.innerHTML = '<ul>';
-            detections.forEach(function(detection) {
-              var label = detection.class;
-              var probability = detection.probability.toFixed(2);
-              console.log('Server response:', label); // Debugging-Ausgabe
-              console.log('Server response:', probability); // Debugging-Ausgabe
-
-              answerDiv.innerHTML += '<li>' + label + ': ' + probability + '</li>';
-            });
-            answerDiv.innerHTML += '</ul>';
-  
-            var answerPartDiv = document.getElementById('answerPart');
-            answerPartDiv.style.visibility = 'visible';
-          }
+          var answerPartDiv = document.getElementById('answerPart');
+          answerPartDiv.style.visibility = 'visible';
         })
         .catch(error => {
           console.log('Error occurred during image upload:', error);
@@ -48,5 +40,4 @@ function classify_image(event, input) {
     } else {
       console.log('Invalid file object');
     }
-  }
-  
+}
